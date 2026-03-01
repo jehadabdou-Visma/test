@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Assign Copilot via GraphQL
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           gh api graphql -f query='
             mutation {
