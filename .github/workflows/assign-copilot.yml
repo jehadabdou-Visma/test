@@ -11,10 +11,19 @@ jobs:
     if: github.event.label.name == 'copilot'
     runs-on: ubuntu-latest
     steps:
-      - name: Assign Copilot
+      - name: Assign Copilot via GraphQL
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh issue edit ${{ github.event.issue.number }} \
-            --repo ${{ github.repository }} \
-            --add-assignee Copilot
+          gh api graphql -f query='
+            mutation {
+              addAssigneesToAssignable(input: {
+                assignableId: "${{ github.event.issue.node_id }}"
+                assigneeIds: ["BOT_kgDOC9w8XQ"]
+              }) {
+                assignable {
+                  ... on Issue { id }
+                }
+              }
+            }
+          '
