@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   assign:
-    if: github.event.label.name == 'copilot'
+    if: github.event.label.name == 'cleanup-bot'
     runs-on: ubuntu-latest
     steps:
       - name: Assign Copilot via GraphQL
