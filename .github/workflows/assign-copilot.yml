@@ -19,7 +19,7 @@ jobs:
             mutation {
               addAssigneesToAssignable(input: {
                 assignableId: "${{ github.event.issue.node_id }}",
-                assigneeIds: ["BOT_kgDODnSAjQ"]
+                assigneeIds: ["BOT_kgDOC9w8XQ"]
               }) {
                 assignable {
                   ... on Issue { id }
