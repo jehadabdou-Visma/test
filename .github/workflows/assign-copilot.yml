@@ -1,4 +1,4 @@
-name: Assign Cleanup Agent
+name: Assign Copilot
 on:
   issues:
     types: [labeled]
@@ -11,7 +11,7 @@ jobs:
     if: github.event.label.name == 'cleanup-bot'
     runs-on: ubuntu-latest
     steps:
-      - name: Assign Codex Bot
+      - name: Assign Copilot via GraphQL
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
@@ -21,6 +21,9 @@ jobs:
                 assignableId: "${{ github.event.issue.node_id }}",
                 assigneeIds: ["BOT_kgDODnSAjQ"]
               }) {
-                clientMutationId
+                assignable {
+                  ... on Issue { id }
+                }
               }
-            }'
+            }
+          '
