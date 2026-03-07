@@ -1,20 +1,58 @@
-name: Assign Custom Cleanup Agent
+name: Assign Copilot
+
 on:
+
   issues:
+
     types: [labeled]
 
+
+
 permissions:
+
   issues: write
 
+
+
 jobs:
+
   assign:
+
     if: github.event.label.name == 'cleanup-bot'
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Assign Copilot
+
+      - name: Assign Copilot via GraphQL
+
         env:
+
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+
         run: |
-          # We assign the workspace bot, but the body instructions 
-          # will force it to use your .github/agents/cleanup-bot.agent.md configuration
-          gh issue edit ${{ github.event.issue.number }} --add-assignee "github-copilot-workspace"
+
+          gh api graphql -f query='
+
+            mutation {
+
+              addAssigneesToAssignable(input: {
+
+                assignableId: "${{ github.event.issue.node_id }}"
+
+                assigneeIds: ["BOT_kgDOC9w8XQ"]
+
+              }) {
+
+                assignable {
+
+                  ... on Issue { id }
+
+                }
+
+              }
+
+            }
+
+          '
+
